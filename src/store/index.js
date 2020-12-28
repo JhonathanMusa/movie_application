@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import movies from "./modules/movies"
 Vue.use(Vuex);
 
 const SET_USER = "SET_USER";
@@ -20,5 +20,12 @@ export default new Vuex.Store({
       commit(SET_USER, user);
     },
   },
-  modules: {},
+  modules: {
+    movies
+  },
+  getters: {
+    isUserAdmin: state => {
+      return state.user.role = "admin"
+    }
+  }
 });

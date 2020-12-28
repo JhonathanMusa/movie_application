@@ -1,35 +1,33 @@
 <template>
   <div id="movie-container">
-    Movie List
-
-    <ul>
+    <!--  <ul>
       <li style="color: white" v-for="(movie, index) in movies" :key="movie.id">
         Index: {{ index }} - {{ movie.name }}
       </li>
-    </ul>
+    </ul> -->
+    <movie v-for="movie in movies" :key="movie.id" :movie="movie" />
   </div>
 </template>
 
 <script>
+import Movie from "./Movie";
 export default {
+  components: {
+    Movie,
+  },
   data() {
     return {
-      movies: [
-        {
-          id: 1,
-          name: "movie-1",
-        },
-        {
-          id: 2,
-          name: "movie-2",
-        },
-        {
-          id: 3,
-          name: "movie-3",
-        },
-      ],
+      // movies: [],
     };
   },
+  computed: {
+    movies() {
+      return this.$store.getters.getMovies;
+    },
+  },
+  /* created() {
+    this.movies = this.$store.getters.getMovies;
+  }, */
 };
 </script>
 
@@ -38,7 +36,7 @@ export default {
   padding-top: 1rem;
   display: flex;
   flex-wrap: wrap;
-  flex-grow: 2;
+  flex-grow: 3;
   justify-content: center;
 }
 </style>

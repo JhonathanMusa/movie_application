@@ -2,13 +2,24 @@
   <div id="navbar-wrap" class="card-shadow">
     <div id="navbar">
       <h2>Movie.io</h2>
-      <input type="text" placeholder="Find movie..." />
+      <input v-model="search" type="text" placeholder="Find movie..." />
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      search: "",
+    };
+  },
+  watch: {
+    search() {
+      this.$store.dispatch("search", this.search);
+    },
+  },
+};
 </script>
 
 <style lang='scss' scoped>
@@ -33,16 +44,15 @@ export default {};
       display: flex;
       flex-grow: 2;
       justify-content: flex-end;
-
-      input {
-        width: 20%;
-        border: none;
-        height: 25px;
-        border-radius: 10px;
-        box-sizing: border-box;
-        outline: none;
-        padding: 5px;
-      }
+    }
+    input {
+      width: 20%;
+      border: none;
+      height: 25px;
+      border-radius: 10px;
+      box-sizing: border-box;
+      outline: none;
+      padding: 5px;
     }
   }
 }
