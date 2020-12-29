@@ -45,6 +45,9 @@ const getters = {
       )
       .sort(compare(state.filter));
   },
+  getMovieById: (state) => (id) => {
+    return state.movies.find((movie) => movie.id === id);
+  },
 };
 
 const compare = ({ key, order }) => {
