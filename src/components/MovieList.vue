@@ -28,6 +28,9 @@ export default {
   /* created() {
     this.movies = this.$store.getters.getMovies;
   }, */
+  created() {
+    this.$store.dispatch("fetchMovies");
+  },
 };
 </script>
 

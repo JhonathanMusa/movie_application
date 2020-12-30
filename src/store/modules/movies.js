@@ -1,12 +1,15 @@
-import movieList from "../../assets/movie-list";
+// import movieList from "../../assets/movie-list";
+import moviesApi from "../../services/moviesApi";
 const SET_SEARCH = "SET_SEARCH";
 const SET_FILTER = "SET_FILTER";
 const ADD_MOVIE = "ADD_MOVIE";
 const DELETE_MOVIE = "DELETE_MOVIE";
 const UPDATE_MOVIE = "UPDATE_MOVIE";
+const SET_MOVIES = "SET_MOVIES";
 
 const state = {
-  movies: movieList,
+  // movies: movieList,
+  movies: [],
   search: "",
   filter: {
     key: "rating",
@@ -39,6 +42,9 @@ const mutations = {
       return oldMovie;
     });
   },
+  [SET_MOVIES](state, movies) {
+    state.movies = movies;
+  },
 };
 
 const actions = {
@@ -50,21 +56,45 @@ const actions = {
     commit(SET_FILTER, filter);
   },
   addMovie({ commit, state }, movie) {
-    movie.id = state.movies.length + 1;
-    commit(ADD_MOVIE, movie);
+    moviesApi
+      .addMovie(movie)
+      .then((res) => commit(ADD_MOVIE, res))
+      .catch((err) => console.log(err));
+    /*     movie.id = state.movies.length + 1;
+    commit(ADD_MOVIE, movie); */
   },
   deleteMovie({ commit }, id) {
     commit(DELETE_MOVIE, id);
+
+    moviesApi
+      .deleteMovie(id)
+      .then((res) => {
+        commit(DELETE_MOVIE, res);
+        return;
+      })
+      .catch((err) => console.log(err));
   },
 
   updateMovie({ commit }, movie) {
     commit(UPDATE_MOVIE, movie);
+
+    moviesApi
+      .updateMovie(movie)
+      .then((res) => commit(UPDATE_MOVIE, res))
+      .catch((err) => console.log(err));
+  },
+
+  fetchMovies({ commit }) {
+    moviesApi
+      .getMovies()
+      .then((res) => commit(SET_MOVIES, res))
+      .catch((err) => console.log(err));
   },
 };
 
 const getters = {
   getMovies: (state) => {
-    /*   console.log(
+    /*     console.log(
       state.movies.filter(
         (movie) =>
           movie.name.toLowerCase().indexOf(state.search.toLowerCase()) > -1
